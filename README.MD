@@ -62,5 +62,6 @@ Finalmente, inicializamos o cluster Kubernetes com o kubeadm.
 Contribuições
 Sinta-se à vontade para abrir issues e pull requests para melhorias e correções.
 
-Licença
+## 📄 Licença
+
 Este projeto está licenciado sob a Licença MIT. Consulte o arquivo LICENSE para mais informações.

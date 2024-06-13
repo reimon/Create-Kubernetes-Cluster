@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# Kubernetes Cluster Initialization Script
+# Autor: Kleber Santos de Carvalho / Reimon Ferreira
+# Data: 13-06-2024
+# Versão: 1.0
+
+# Este script configura um cluster Kubernetes usando kubeadm, containerd como runtime e configura a rede.
+
+echo "Iniciando a criação do diretório .kube no diretório home do usuário"
+sudo mkdir -p $HOME/.kube
+
+echo "Copiando o arquivo de configuração do Kubernetes para o diretório .kube"
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+echo "Alterando a propriedade do arquivo de configuração do Kubernetes para o usuário atual"
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# Carregar módulos do kernel necessários para Kubernetes e containerd
+echo "Carregando os módulos do kernel necessários: overlay e br_netfilter"
+cat << EOF | sudo tee /etc/modules-load.d/containerd.conf
+overlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# Configurar parâmetros sysctl necessários para Kubernetes
+echo "Configurando parâmetros sysctl necessários para Kubernetes"
+cat << EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+
+echo "Aplicando configurações sysctl"
+sudo sysctl --system
+
+# Instalar containerd
+echo "Atualizando os pacotes do sistema e instalando containerd"
+sudo apt-get update && sudo apt-get install -y containerd
+
+echo "Criando diretório de configuração para containerd"
+sudo mkdir -p /etc/containerd
+
+echo "Gerando arquivo de configuração padrão para containerd"
+sudo containerd config default | sudo tee /etc/containerd/config.toml
+
+echo "Reiniciando serviço containerd"
+sudo systemctl restart containerd
+
+# Desativar swap
+echo "Desativando swap, pois não é suportado pelo Kubernetes"
+sudo swapoff -a
+
+# Instalar dependências do Kubernetes
+echo "Instalando dependências do Kubernetes"
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+
+echo "Adicionando chave de assinatura do repositório do Kubernetes"
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+echo "Criando diretório de keyrings para o Kubernetes"
+sudo mkdir /etc/apt/keyrings
+
+echo "Baixando e adicionando keyring do repositório do Kubernetes"
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+echo "Adicionando repositório do Kubernetes ao sources list"
+sudo echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+echo "Atualizando lista de pacotes e instalando kubeadm, kubelet e kubectl"
+sudo apt-get update
+sudo apt install -y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1
+
+echo "Marcando kubeadm, kubelet e kubectl para não serem atualizados automaticamente"
+sudo apt-mark hold kubelet kubeadm kubectl
+
+# Inicializar cluster Kubernetes
+echo "Inicializando o cluster Kubernetes com kubeadm"
+sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.28.1
+
+echo "Script concluído. O cluster Kubernetes foi inicializado com sucesso."
