@@ -42,6 +42,15 @@ echo "Criando diretório de configuração para containerd"
 sudo mkdir -p /etc/containerd
 
 echo "Gerando arquivo de configuração padrão para containerd"
+
+containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
+
+echo "Modificar Configuração para Usar Systemd como Gerenciador de Cgroups"
+sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
+
+echo "substituir registry.k8s.io/pause:3.8 por registry.k8s.io/pause:3.9"
+sudo sed -i 's|registry.k8s.io/pause:3.8|registry.k8s.io/pause:3.9|g' /etc/containerd/config.toml
+
 sudo containerd config default | sudo tee /etc/containerd/config.toml
 
 echo "Reiniciando serviço containerd"
