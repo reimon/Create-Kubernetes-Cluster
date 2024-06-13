@@ -50,35 +50,24 @@ az network vnet create --resource-group cluster-k8s --name VNET-K8S --address-pr
 ### 3. Criar uma VM no Azure
 
 ```sh
-az vm create \
-  --resource-group cluster-k8s \
-  --name VM-K8S-CP \
-  --image Canonical:0001-com-ubuntu-minimal-jammy:minimal-22_04-lts-gen2:22.04.202305240 \
-  --size Standard_B2s \
-  --vnet-name VNET-K8S \
-  --subnet default \
-  --public-ip-address "" \
-  --public-ip-address-allocation static \
-  --public-ip-sku Standard \
-  --os-disk-size-gb 30 \
-  --os-disk-type StandardSSD_LRS \
-  --admin-username svc_Linux \
-  --admin-password FIAP@MBA@K8S@2024! \
-  --location brazilSouth
+az vm create --resource-group cluster-k8s \
+--name VM-K8S-CP  \
+--image Canonical:0001-com-ubuntu-server-jammy:22_04-lts-gen2:latest \
+--public-ip-sku Standard \
+--admin-username azureuser \
+--admin-password FIAP@MBA@K8S@2024!  \
+--vnet-name VNET-K8S \
+--size Standard_B2ms  \
+--public-ip-sku Standard \
+--location brazilSouth
 ```
 
-`--az vm create`: Cria uma nova máquina virtual no Azure.
-`--resource-group cluster-k8s`: Especifica o grupo de recursos.
-`--name VM-K8S-CP`: Define o nome da VM.
-`--image Canonical`:0001-com-ubuntu-minimal-jammy:minimal-22_04-lts-gen2:22.04.202305240: Usa a imagem Ubuntu 22.04 minimal gen2.
-`--size Standard_B2s`: Especifica o tamanho da VM com 2 vCPUs e 4 GiB de RAM.
+- `--az vm create`: Cria uma nova máquina virtual no Azure.
+- `--resource-group cluster-k8s`: Especifica o grupo de recursos.
+- `--name VM-K8S-CP`: Define o nome da VM.
+- `--image Canonical:0001-com-ubuntu-minimal-jammy:minimal-22_04-lts-gen2:latest: Usa a imagem Ubuntu 22.04 minimal gen2.
+`--size Standard_B2ms`: Especifica o tamanho da VM com 2 vCPUs e 8 GiB de RAM.
 `--vnet-name VNET-K8S`: Conecta a VM à VNet existente.
-`--subnet default`: Usa a sub-rede padrão.
-`--public-ip-address ""`: Cria um IP público para a VM.
-`--public-ip-address-allocation static`: Define o IP público como estático.
-`--public-ip-sku Standard`: Usa o SKU Standard para o IP público.
-`--os-disk-size-gb 30`: Define o tamanho do disco do SO para 30 GB.
-`--os-disk-type StandardSSD_LRS: Usa o tipo de disco SSD Standard.
 `--admin-username svc_Linux`: Define o nome de usuário administrador.
 `--admin-password FIAP@MBA@K8S@2024!`: Define a senha do usuário administrador.
 `--location brazilSouth`: Especifica a localização.
