@@ -62,25 +62,26 @@ az vm create \
   --public-ip-sku Standard \
   --os-disk-size-gb 30 \
   --os-disk-type StandardSSD_LRS \
-  --admin-username azureuser \
-  --generate-ssh-keys \
+  --admin-username svc_Linux \
+  --admin-password FIAP@MBA@K8S@2024! \
   --location brazilSouth
 ```
 
--- az vm create: Comando para criar uma nova máquina virtual.
--- resource-group cluster-k8s: Especifica o grupo de recursos.
--- name VM-K8S-CP: Define o nome da VM.
--- image Canonical:0001-com-ubuntu-minimal-jammy:minimal-22_04-lts-gen2:22.04.202305240: Usa a imagem Ubuntu 22.04 minimal gen2.
--- size Standard_B2s: Especifica o tamanho da VM com 2 vCPUs e 4 GiB de RAM.
--- vnet-name VNET-K8S: Conecta a VM à VNet existente.
--- subnet default: Usa a sub-rede padrão.
--- public-ip-address "": Cria um IP público para a VM.
--- public-ip-address-allocation static: Define o IP público como estático.
--- public-ip-sku Standard: Usa o SKU Standard para o IP público.
--- os-disk-size-gb 30: Define o tamanho do disco do SO para 30 GB.
--- os-disk-type StandardSSD_LRS: Usa o tipo de disco SSD Standard.
--- admin-username azureuser: Define o nome de usuário administrador.
--- generate-ssh-keys: Gera chaves SSH automaticamente.
+`--az vm create`: Cria uma nova máquina virtual no Azure.
+--resource-group cluster-k8s: Especifica o grupo de recursos.
+--name VM-K8S-CP: Define o nome da VM.
+--image Canonical:0001-com-ubuntu-minimal-jammy:minimal-22_04-lts-gen2:22.04.202305240: Usa a imagem Ubuntu 22.04 minimal gen2.
+--size Standard_B2s: Especifica o tamanho da VM com 2 vCPUs e 4 GiB de RAM.
+--vnet-name VNET-K8S: Conecta a VM à VNet existente.
+--subnet default: Usa a sub-rede padrão.
+--public-ip-address "": Cria um IP público para a VM.
+--public-ip-address-allocation static: Define o IP público como estático.
+--public-ip-sku Standard: Usa o SKU Standard para o IP público.
+--os-disk-size-gb 30: Define o tamanho do disco do SO para 30 GB.
+--os-disk-type StandardSSD_LRS: Usa o tipo de disco SSD Standard.
+--admin-username svc_Linux: Define o nome de usuário administrador.
+--admin-password FIAP@MBA@K8S@2024!: Define a senha do usuário administrador.
+--location brazilSouth: Especifica a localização..
 -- location brazilSouth: Especifica a localização.
 
 ### 🔧 Instalação do Kubernetes
