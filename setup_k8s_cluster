@@ -48,7 +48,7 @@ echo "Reiniciando serviço containerd"
 sudo systemctl restart containerd
 
 # Desativar swap
-echo "Desativando swap, pois não é suportado pelo Kubernetes"
+echo "Desativando swap"
 sudo swapoff -a
 
 # Instalar dependências do Kubernetes
