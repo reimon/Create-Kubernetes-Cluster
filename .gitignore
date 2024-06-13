@@ -1,0 +1,33 @@
+# Ignora os arquivos de configuração gerados pelo Vagrant
+.vagrant/
+
+# Ignora arquivos de log
+*.log
+
+# Ignora chaves SSH
+*.pem
+
+# Ignora arquivos de configuração de máquinas virtuais
+*.box
+
+# Ignora arquivos de cache
+.cache/
+
+# Ignora metadados de IDEs
+.idea/
+*.iml
+
+# Ignora arquivos de compilação do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignora arquivos temporários
+*.tmp
+*.swp
+
+# Ignora configurações locais do usuário
+*.local
+
+# Ignora arquivos específicos do Vagrant
+Vagrantfile.local
+Vagrantfile.custom
