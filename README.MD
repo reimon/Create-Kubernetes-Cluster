@@ -23,10 +23,10 @@ Clone este repositório e navegue até o diretório:
 
 ```bash
 git clone https://github.com/reimon/Create-Kubernetes-Cluster.git
-cd kubernetes-cluster-init
+cd Create-Kubernetes-Cluster
 
-chmod +x setup_k8s_cluster.sh
-./setup_k8s_cluster.sh
+chmod +x setup_k8s_cluster
+./setup_k8s_cluster
 ```
 
 ## Passos do Script
