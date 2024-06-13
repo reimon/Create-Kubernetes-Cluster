@@ -17,7 +17,73 @@ Antes de executar o script, certifique-se de ter:
 - Sistema operacional baseado em Linux (testado no Ubuntu 22.04)
 - git instalado (apt-get install git -y )
 
-### 🔧 Instalação
+# Configuração da INFRA no Azure
+
+Este guia descreve os comandos necessários para criar um grupo de recursos, uma rede virtual e uma máquina virtual no Azure, incluindo a configuração necessária para um cluster Kubernetes.
+
+## Comandos
+
+### 1. Criar um Grupo de Recursos
+
+```sh
+az group create --name cluster-k8s --location brazilSouth
+```
+
+--az group create: Cria um novo grupo de recursos no Azure.
+--name cluster-k8s: Define o nome do grupo de recursos como "cluster-k8s".
+--location brazilSouth: Especifica a localização do grupo de recursos como "Brazil South".
+
+### 2. Criar uma Virtual Network
+
+Este comando criará a VNet "VNET-K8S" no grupo de recursos "cluster-k8s" na região "Brazil South".
+
+```sh
+az network vnet create --resource-group cluster-k8s --name VNET-K8S --address-prefix 10.0.0.0/16 --location brazilSouth
+```
+
+-- `az network vnet create`: Comando para criar uma Virtual Network no Azure.
+-- `resource-group cluster-k8s`: Especifica o grupo de recursos onde a VNet será criada.
+-- `name VNET-K8S`: Define o nome da VNet como "VNET-K8S".
+-- `address-prefix 10.0.0.0/16`: Define o prefixo de endereço da VNet.
+-- `location brazilSouth`: Especifica a localização da VNet como "Brazil South".
+
+### 3. Criar uma VM no Azure
+
+```sh
+az vm create \
+  --resource-group cluster-k8s \
+  --name VM-K8S-CP \
+  --image Canonical:0001-com-ubuntu-minimal-jammy:minimal-22_04-lts-gen2:22.04.202305240 \
+  --size Standard_B2s \
+  --vnet-name VNET-K8S \
+  --subnet default \
+  --public-ip-address "" \
+  --public-ip-address-allocation static \
+  --public-ip-sku Standard \
+  --os-disk-size-gb 30 \
+  --os-disk-type StandardSSD_LRS \
+  --admin-username azureuser \
+  --generate-ssh-keys \
+  --location brazilSouth
+```
+
+-- az vm create: Comando para criar uma nova máquina virtual.
+-- resource-group cluster-k8s: Especifica o grupo de recursos.
+-- name VM-K8S-CP: Define o nome da VM.
+-- image Canonical:0001-com-ubuntu-minimal-jammy:minimal-22_04-lts-gen2:22.04.202305240: Usa a imagem Ubuntu 22.04 minimal gen2.
+-- size Standard_B2s: Especifica o tamanho da VM com 2 vCPUs e 4 GiB de RAM.
+-- vnet-name VNET-K8S: Conecta a VM à VNet existente.
+-- subnet default: Usa a sub-rede padrão.
+-- public-ip-address "": Cria um IP público para a VM.
+-- public-ip-address-allocation static: Define o IP público como estático.
+-- public-ip-sku Standard: Usa o SKU Standard para o IP público.
+-- os-disk-size-gb 30: Define o tamanho do disco do SO para 30 GB.
+-- os-disk-type StandardSSD_LRS: Usa o tipo de disco SSD Standard.
+-- admin-username azureuser: Define o nome de usuário administrador.
+-- generate-ssh-keys: Gera chaves SSH automaticamente.
+-- location brazilSouth: Especifica a localização.
+
+### 🔧 Instalação do Kubernetes
 
 Clone este repositório e navegue até o diretório:
 
