@@ -5,16 +5,7 @@
 # Data: 13-06-2024
 # Versão: 1.0
 
-# Este script configura um cluster Kubernetes usando kubeadm, containerd como runtime e configura a rede.
-
-echo "Iniciando a criação do diretório .kube no diretório home do usuário"
-sudo mkdir -p $HOME/.kube
-
-echo "Copiando o arquivo de configuração do Kubernetes para o diretório .kube"
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-
-echo "Alterando a propriedade do arquivo de configuração do Kubernetes para o usuário atual"
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
+Echo "Este script configura um cluster Kubernetes usando kubeadm, containerd como runtime e configura a rede."
 
 # Carregar módulos do kernel necessários para Kubernetes e containerd
 echo "Carregando os módulos do kernel necessários: overlay e br_netfilter"
@@ -80,5 +71,15 @@ sudo apt-mark hold kubelet kubeadm kubectl
 # Inicializar cluster Kubernetes
 echo "Inicializando o cluster Kubernetes com kubeadm"
 sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.28.1
+
+echo "Iniciando a criação do diretório .kube no diretório home do usuário"
+sudo mkdir -p $HOME/.kube
+
+echo "Copiando o arquivo de configuração do Kubernetes para o diretório .kube"
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+echo "Alterando a propriedade do arquivo de configuração do Kubernetes para o usuário atual"
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
 
 echo "Script concluído. O cluster Kubernetes foi inicializado com sucesso."
