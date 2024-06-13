@@ -7,6 +7,11 @@
 
 Echo "Este script configura um cluster Kubernetes usando kubeadm, containerd como runtime e configura a rede."
 
+echo " Update e upgrade dos pacotes do sistema"
+sudo apt-get update -y
+sudo apt-get upgrade -y
+
+
 # Carregar módulos do kernel necessários para Kubernetes e containerd
 echo "Carregando os módulos do kernel necessários: overlay e br_netfilter"
 cat << EOF | sudo tee /etc/modules-load.d/containerd.conf
@@ -16,6 +21,7 @@ EOF
 
 sudo modprobe overlay
 sudo modprobe br_netfilter
+
 
 # Configurar parâmetros sysctl necessários para Kubernetes
 echo "Configurando parâmetros sysctl necessários para Kubernetes"

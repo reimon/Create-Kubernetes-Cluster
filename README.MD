@@ -31,33 +31,33 @@ chmod +x setup_k8s_cluster
 
 ## Passos do Script
 
-### 1. Configuração do Diretório .kube
-
-O script cria o diretório .kube e copia o arquivo de configuração do Kubernetes para ele.
-
-### 2. Carregamento dos Módulos Necessários
+### 1. Carregamento dos Módulos Necessários
 
 Carregamos os módulos overlay e br_netfilter necessários para o funcionamento do Kubernetes.
 
-### 3. Configuração dos Parâmetros sysctl
+### 2. Configuração dos Parâmetros sysctl
 
 Configurações sysctl são aplicadas para permitir o roteamento de pacotes IP e o processamento de iptables no tráfego de ponte de rede.
 
-### 4. Instalação do containerd
+### 3. Instalação do containerd
 
 O runtime containerd é instalado e configurado.
 
-### 5. Desativação do Swap
+### 4. Desativação do Swap
 
-O swap é desativado, pois não é suportado pelo Kubernetes.
+O swap é desativado.
 
-### 6. Instalação das Dependências do Kubernetes
+### 5. Instalação das Dependências do Kubernetes
 
 Instalamos o kubeadm, kubelet e kubectl nas versões especificadas.
 
-### 7. Inicialização do Cluster Kubernetes
+### 6. Inicialização do Cluster Kubernetes
 
 Finalmente, inicializamos o cluster Kubernetes com o kubeadm.
+
+### 7. Configuração do Diretório .kube
+
+O script cria o diretório .kube e copia o arquivo de configuração do Kubernetes para ele.
 
 ### 8. Aplica a configuração de rede Calico
 
