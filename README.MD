@@ -84,6 +84,12 @@ az vm create \
 --location brazilSouth: Especifica a localização..
 -- location brazilSouth: Especifica a localização.
 
+### 4. Abrir Porta 22 para SSH
+
+```sh
+az vm open-port --port 22 --resource-group cluster-k8s --name VM-K8S-CP
+```
+
 ### 🔧 Instalação do Kubernetes
 
 Clone este repositório e navegue até o diretório:
@@ -132,6 +138,10 @@ O script cria o diretório .kube e copia o arquivo de configuração do Kubernet
 kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 
 ```
+
+## 🔥 Kernel Doc
+
+https://docs.kernel.org/admin-guide/cgroup-v2.html?highlight=namespace
 
 Contribuições
 Sinta-se à vontade para abrir issues e pull requests para melhorias e correções.
