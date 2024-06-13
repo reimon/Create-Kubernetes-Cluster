@@ -59,6 +59,13 @@ Instalamos o kubeadm, kubelet e kubectl nas versões especificadas.
 
 Finalmente, inicializamos o cluster Kubernetes com o kubeadm.
 
+### 8. Aplica a configuração de rede Calico
+
+```sh
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+```
+
 Contribuições
 Sinta-se à vontade para abrir issues e pull requests para melhorias e correções.
 
