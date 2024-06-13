@@ -13,9 +13,9 @@ Este repositório contém um script para inicializar um cluster Kubernetes usand
 
 Antes de executar o script, certifique-se de ter:
 
-- VMware Fusion instalado e funcionando
 - Acesso root ou sudo no sistema
 - Sistema operacional baseado em Linux (testado no Ubuntu 22.04)
+- git instalado (apt-get install git -y )
 
 ### 🔧 Instalação
 

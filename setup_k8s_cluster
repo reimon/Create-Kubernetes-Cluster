@@ -56,21 +56,21 @@ echo "Criando diretório de keyrings para o Kubernetes"
 sudo mkdir /etc/apt/keyrings
 
 echo "Baixando e adicionando keyring do repositório do Kubernetes"
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
 echo "Adicionando repositório do Kubernetes ao sources list"
-sudo echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 echo "Atualizando lista de pacotes e instalando kubeadm, kubelet e kubectl"
 sudo apt-get update
-sudo apt install -y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1
+sudo apt install -y kubeadm=1.29.1-1.1 kubelet=1.29.1-1.1 kubectl=1.29.1-1.1
 
 echo "Marcando kubeadm, kubelet e kubectl para não serem atualizados automaticamente"
 sudo apt-mark hold kubelet kubeadm kubectl
 
 # Inicializar cluster Kubernetes
 echo "Inicializando o cluster Kubernetes com kubeadm"
-sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.28.1
+sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.29.1
 
 echo "Iniciando a criação do diretório .kube no diretório home do usuário"
 sudo mkdir -p $HOME/.kube
@@ -81,5 +81,10 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 echo "Alterando a propriedade do arquivo de configuração do Kubernetes para o usuário atual"
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+echo "Lista todos os nodes do nosso cluster Kubernetes"
+kubectl get nodes
+
+echo "Lista todos os pods com detalhes no namespace kube-system"
+kubectl get pods -n kube-system
 
 echo "Script concluído. O cluster Kubernetes foi inicializado com sucesso."
