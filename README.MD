@@ -29,9 +29,9 @@ Este guia descreve os comandos necessários para criar um grupo de recursos, uma
 az group create --name cluster-k8s --location brazilSouth
 ```
 
---az group create: Cria um novo grupo de recursos no Azure.
---name cluster-k8s: Define o nome do grupo de recursos como "cluster-k8s".
---location brazilSouth: Especifica a localização do grupo de recursos como "Brazil South".
+- `--az group create`: Cria um novo grupo de recursos no Azure.
+- `--name cluster-k8s`: Define o nome do grupo de recursos como "cluster-k8s".
+- `--location brazilSouth`: Especifica a localização do grupo de recursos como "Brazil South".
 
 ### 2. Criar uma Virtual Network
 
@@ -41,11 +41,11 @@ Este comando criará a VNet "VNET-K8S" no grupo de recursos "cluster-k8s" na reg
 az network vnet create --resource-group cluster-k8s --name VNET-K8S --address-prefix 10.0.0.0/16 --location brazilSouth
 ```
 
-`--az network vnet create`: Comando para criar uma Virtual Network no Azure.
-`--resource-group cluster-k8s`: Especifica o grupo de recursos onde a VNet será criada.
-`--name VNET-K8S`: Define o nome da VNet como "VNET-K8S".
-`--address-prefix 10.0.0.0/16`: Define o prefixo de endereço da VNet.
-`--location brazilSouth`: Especifica a localização da VNet como "Brazil South".
+- `--az network vnet create`: Comando para criar uma Virtual Network no Azure.
+- `--resource-group cluster-k8s`: Especifica o grupo de recursos onde a VNet será criada.
+- `--name VNET-K8S`: Define o nome da VNet como "VNET-K8S".
+- `--address-prefix 10.0.0.0/16`: Define o prefixo de endereço da VNet.
+- `--location brazilSouth`: Especifica a localização da VNet como "Brazil South".
 
 ### 3. Criar uma VM no Azure
 
@@ -54,7 +54,7 @@ az vm create --resource-group cluster-k8s \
 --name VM-K8S-CP  \
 --image Canonical:0001-com-ubuntu-server-jammy:22_04-lts-gen2:latest \
 --public-ip-sku Standard \
---admin-username azureuser \
+--admin-username svc_Linux \
 --admin-password FIAP@MBA@K8S@2024!  \
 --vnet-name VNET-K8S \
 --size Standard_B2ms  \
@@ -66,11 +66,11 @@ az vm create --resource-group cluster-k8s \
 - `--resource-group cluster-k8s`: Especifica o grupo de recursos.
 - `--name VM-K8S-CP`: Define o nome da VM.
 - `--image Canonical:0001-com-ubuntu-minimal-jammy:minimal-22_04-lts-gen2:latest: Usa a imagem Ubuntu 22.04 minimal gen2.
-`--size Standard_B2ms`: Especifica o tamanho da VM com 2 vCPUs e 8 GiB de RAM.
-`--vnet-name VNET-K8S`: Conecta a VM à VNet existente.
-`--admin-username svc_Linux`: Define o nome de usuário administrador.
-`--admin-password FIAP@MBA@K8S@2024!`: Define a senha do usuário administrador.
-`--location brazilSouth`: Especifica a localização.
+- `--size Standard_B2ms`: Especifica o tamanho da VM com 2 vCPUs e 8 GiB de RAM.
+- `--vnet-name VNET-K8S`: Conecta a VM à VNet existente.
+- `--admin-username svc_Linux`: Define o nome de usuário administrador.
+- `--admin-password FIAP@MBA@K8S@2024!`: Define a senha do usuário administrador.
+- `--location brazilSouth`: Especifica a localização.
 
 ### 4. Abrir Porta 22 para SSH
 
