@@ -11,6 +11,8 @@ echo " Update e upgrade dos pacotes do sistema"
 sudo apt-get update -y
 sudo apt-get upgrade -y
 
+echo "* libraries/restart-without-asking boolean true" | sudo debconf-set-selections
+
 
 # Carregar módulos do kernel necessários para Kubernetes e containerd
 echo "Carregando os módulos do kernel necessários: overlay e br_netfilter"
@@ -96,8 +98,34 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 echo "Lista todos os nodes do nosso cluster Kubernetes"
 kubectl get nodes
-
 echo "Lista todos os pods com detalhes no namespace kube-system"
+sleep 30
+echo "Aguarde 30 segundos"
 kubectl get pods -n kube-system
+
+echo "Instalando o Calico para a rede do cluster"
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+echo ".-. .-')             .-. .-')    ('-.  _  .-')       .-') _   ('-.   .-') _     ('-.    .-')    ";
+echo "\  ( OO )            \  ( OO ) _(  OO)( \( -O )     ( OO ) )_(  OO) (  OO) )  _(  OO)  ( OO ).  ";
+echo ",--. ,--. ,--. ,--.   ;-----.\(,------.,------. ,--./ ,--,'(,------./     '._(,------.(_)---\_) ";
+echo "|  .'   / |  | |  |   | .-.  | |  .---'|   /\`. '|   \ |  |\ |  .---'|'--...__)|  .---'/    _ |  ";
+echo "|      /, |  | | .-') | '-' /_)|  |    |  /  | ||    \|  | )|  |    '--.  .--'|  |    \  :\` \`.  ";
+echo "|     ' _)|  |_|( OO )| .-. \`.(|  '--. |  |_.' ||  .     |/(|  '--.    |  |  (|  '--.  '..\`''.) ";
+echo "|  .   \  |  | | \`-' /| |  \  ||  .--' |  .  '.'|  |\    |  |  .--'    |  |   |  .--' .-._)   \ ";
+echo "|  |\   \('  '-'(_.-' | '--'  /|  \`---.|  |\  \ |  | \   |  |  \`---.   |  |   |  \`---.\       / ";
+echo "\`--' '--'  \`-----'    \`------' \`------'\`--' '--'\`--'  \`--'  \`------'   \`--'   \`------' \`-----'  ";
+
+echo "Aguarde 3 segundos"
+sleep 3
+kubectl get pods -n kube-system
+sleep 3
+kubectl get all --all-namespaces
+sleep 3
+kubectl get nodes -o wide
+sleep 2
+kubectl describe nodes
+sleep 2
+kubectl get pods -A
+
 
 echo "Script concluído. O cluster Kubernetes foi inicializado com sucesso."
